@@ -37,7 +37,6 @@ int main(){
 	*space = 0;
 
 	
-	char* metadata = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n";
 
 	FILE* f = fopen(fileName, "r");
 
@@ -48,15 +47,18 @@ int main(){
 		memcpy(response, error_metadata, strlen(error_metadata));
 		write(client_fd, response, sizeof(response));
 		close(client_fd);
-
+		continue;
 	}
 
 	char response[1024] = {0};
 
+	char* metadata = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n";
 
-	memcpy(response, metadata, strlen(metadata));
+	size_t metadata_lenght = strlen(metadata);
 
-	fread(response, 1, 300,f );
+	memcpy(response, metadata, metadata_lenght);
+
+	fread(response + metadata_lenght, 1, 300 , f );
 	
 
 
