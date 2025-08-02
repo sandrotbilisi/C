@@ -26,16 +26,25 @@ int main(){
 
 	printf("%s", buf);
 
-	char* f = buf + 5;
+	char* fileName = buf + 5;
 	
-	//*strchr(f, ' ') = 0;
-	//int opened_fd = open(f, O_RDONLY);
-	//sendfile(client_fd, opened_fd, 0, 256);
+	*strchr(fileName, ' ') = 0;
+
+	FILE* f = fopen(fileName, "r");
+	
+	char response[1024] = {0};
+
+	char* metadata = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n";
+
+	memcpy(response, metadata, strlen(metadata));
+
+	fread(response, 1, 300,f );
+	
 
 
-	 char msg[100] = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nContent-Length: 13\r\n\r\nHello World!";
 
-	 write(client_fd, msg, sizeof(msg));
+
+	 write(client_fd, response, sizeof(response));
 
 	close(client_fd);
 	}
