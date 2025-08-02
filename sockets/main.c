@@ -28,13 +28,31 @@ int main(){
 
 	char* fileName = buf + 5;
 	
-	*strchr(fileName, ' ') = 0;
+	char* space = strchr(fileName, ' ');
+
+	if(!space){
+		close(client_fd);
+	};
+
+	*space = 0;
+
+	
+	char* metadata = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n";
 
 	FILE* f = fopen(fileName, "r");
-	
+
+	if (!f){				
+
+	        char* error_metadata = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\nCouldnt Find File!";
+		char response[1024] = {0};	
+		memcpy(response, error_metadata, strlen(error_metadata));
+		write(client_fd, response, sizeof(response));
+		close(client_fd);
+
+	}
+
 	char response[1024] = {0};
 
-	char* metadata = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n";
 
 	memcpy(response, metadata, strlen(metadata));
 
