@@ -33,9 +33,7 @@ int main(){
 	//sendfile(client_fd, opened_fd, 0, 256);
 
 
-
-
-	 char msg[74] = "HTTP/1.1 200 OK\nContent-Type: text/html\nContent-Length: 13\n\nHello World!";
+	 char msg[100] = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nContent-Length: 13\r\n\r\nHello World!";
 
 	 write(client_fd, msg, sizeof(msg));
 
